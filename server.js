@@ -9,10 +9,15 @@ const app = express();
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
+const path = require("path");
+var session = require("express-session");
+const exphbs = require("express-handlebars");
+app.engine(".html", exphbs({ extname: ".html" }));
+app.set("view engine", ".html");
 
 // https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+app.get("/", (req, res) => {
+  res.render("");
 });
 
 // listen for requests :)
