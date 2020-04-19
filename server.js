@@ -16,9 +16,7 @@ app.engine(".html", exphbs({ extname: ".html" }));
 app.set("view engine", ".html");
 
 // https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (req, res) => {
-  res.render("");
-});
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
