@@ -2,7 +2,7 @@ module.exports = {
   type: "Vanilla", // Modify this if you forked the repo
   version: "0.0.1",
   brand: "CloudOS",
-  // Configuration f
+  // Configuration
   leaf: {
     db: "sqlite:///fs.db",
     namespace: "filesystem",
