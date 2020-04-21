@@ -184,5 +184,6 @@ module.exports = {
   binaryPlacement: binaryPlacement,
   binarySearch: binarySearch,
   bs: bs,
-  inArray: inArray
+  inArray: inArray,
+  patchArr: patchArr
 };
