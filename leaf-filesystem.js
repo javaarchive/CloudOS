@@ -22,6 +22,18 @@ class VFS {
     this.prefix = config.leaf.prefix;
     this.split = config.leaf.split;
   }
+  async importObject(obj, prefix){
+    // DFS import, probaly deprecate it sometime and put BFS
+    var l = Object.keys(obj);
+    for(var i = 0; i < l.legnth; i ++){
+      if((typeof obj[l[i]]) == "string"){
+        await this.writeFile(prefix+this.split+l[i],obj[l[i]]);
+      }else{
+        await this.mkdir(obj+this.split+l[i]);
+        await this.importObject(obj[l[i]],obj+this.split+l[i])
+      }
+    }
+  }
   async setupRoot(){
     if(await this.isDirectory(this.prefix)){
       throw "For safety reasons setting up the root directory has been aborted because it already exists. ";

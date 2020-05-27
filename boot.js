@@ -1,13 +1,44 @@
-function log(data){
+function log(data) {
   console.log(data); // Replacable
 }
-console.log("Loading config...")
-const config = require("./config")
-console.log("Starting "+config.brand+" "+config.tyoe+" edition");
-var {File, Directory, VFS, default_fs} = require("./leaf-filesystem");
+log("Loading config...");
+const config = require("./config");
+log("Starting " + config.brand + " " + config.type + " edition");
+var { File, Directory, VFS, default_fs } = require("./leaf-filesystem");
 var fs = default_fs;
-console.log("File system loaded and mounted");
+log("File system loaded and mounted");
+log("Running FileSystem Setup Asynchronously");
+async function setupFS() {
+  log("Running async checks");
+  let setup = await fs.isSetup();
+  log("You are setup: "+setup)
+  if (setup == false) {
+    log("Starting Setup on FileSystem");
+    await fs.setupRoot();
+    log("Importing filesystem");
+    await fs.importObject(
+      {
+        home: {
+          main: {}
+        },
+        root: {
+          "hello.txt": "Welcome to " + config.brand
+        }
+      },
+      fs.prefix
+    );
+  } else {
+    log("File System check passed");
+  }
+}
+let handlers = {
+  shutdown: function(){}
+}
+setupFS().then(console.log).catch(console.error);
 process.on('SIGTERM', () => {
-  console.info('Termiantion Signal Recieved. Shuting down now!');
+  log('Termiantion Signal Recieved. Shuting down now!');
+  handlers.shutdown();
+  process.exit(0);
 });
-console.log("Shutdown Recovery Enabled");
+log("Shutdown Recovery Enabled");
+module.exports = { fs: fs , handlers: handlers};
